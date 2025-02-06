@@ -8,9 +8,7 @@ import (
 
 func main() {
 	e := echo.New()
-	e.GET("/", func(c echo.Context) error {
-		return c.File("public/index.html")
-	})
+	e.Static("/", "public")
 	e.GET("/version", func(c echo.Context) error {
 		return c.String(http.StatusOK, "this is the version")
 	})

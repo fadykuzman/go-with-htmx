@@ -34,9 +34,10 @@
           inherit inputs pkgs;
           modules = [
             {
-                packages = with pkgs; [
-                  air
-                  ];
+              packages = with pkgs; [
+                air
+                nodePackages.prettier
+              ];
               languages = {
                 go.enable = true;
                 typescript.enable = true;

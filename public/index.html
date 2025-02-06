@@ -1,13 +1,15 @@
 <html>
-	<head>
-		<title>htmx go Demo</title>
-		<script src="https://unpkg.com/htmx.org@2.0.0"></script>
-	</head>
-	<body>
-		<h1>Yello!</h1>
-		<button hx-get="/version" hx-target="#version">Version</button>
-		<div id="version">
-			
-		</div>
-	</body>
+
+<head>
+	<title>htmx go Demo</title>
+	<link rel="stylesheet" href="styles.css" />
+	<script src="https://unpkg.com/htmx.org@2.0.0"></script>
+</head>
+
+<body>
+	<h1>Yello!</h1>
+	<button hx-get="/version" hx-target="#version">Version</button>
+	<div id="version"></div>
+</body>
+
 </html>
