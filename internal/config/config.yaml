@@ -1,0 +1,9 @@
+database:
+  host: localhost
+  port: 5432
+  user: postgres
+  password: password
+  name: myapp
+  sslMode: disable
+  maxConns: 20
+  timeout: 5s
