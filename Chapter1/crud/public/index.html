@@ -1,0 +1,34 @@
+<html>
+
+<head>
+	<title>htmx CRUD</title>
+	<link rel="stylesheet" type="" href="styles.css" />
+	<script src="https://unpkg.com/htmx.org@2.0.0"></script>
+</head>
+
+<body>
+	<h1>Dogs</h1>
+	<form hx-post="/dog" hx-disabled-elt="#add-btn" hx-target="table tbody" hx-swap="afterbegin"
+		hx-on:htmx:after-request="this.reset()">
+		<div>
+			<label for="name">Name</label>
+			<input type="text" id="name" name="name" required size="30" />
+		</div>
+		<div>
+			<label for="breed">Breed</label>
+			<input type="text" id="breed" name="breed" required size="30" />
+		</div>
+		<button id="add-btn" type="">Add</button>
+	</form>
+	<table hx-trigger="revealed" hx-get="/rows" hx-target="tbody">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Breed</th>
+			</tr>
+		</thead>
+		<tbody></tbody>
+	</table>
+</body>
+
+</html>

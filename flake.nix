@@ -36,6 +36,7 @@
             {
               packages = with pkgs; [
                 air
+                htmx-lsp
                 nodePackages.prettier
               ];
               languages = {
