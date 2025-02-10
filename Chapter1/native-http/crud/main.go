@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -17,7 +18,7 @@ type Dog struct {
 
 type Dogs map[string]Dog
 
-var dogMap = Dogs{}
+var dogMap = make(Dogs)
 
 func GetDogs(w http.ResponseWriter, r *http.Request) {
 
@@ -40,6 +41,13 @@ func createDog(w http.ResponseWriter, r *http.Request) {
 	AddDog(name, breed, dogMap)
 }
 
+func deleteDog(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	id := vars["id"]
+	fmt.Println(id)
+	delete(dogMap, id)
+}
+
 func main() {
 	r := mux.NewRouter().StrictSlash(true)
 	AddDog("Rocky", "Whippet", dogMap)
@@ -47,6 +55,7 @@ func main() {
 	fs := http.FileServer(http.Dir("public"))
 	r.HandleFunc("/dogs/", GetDogs).Methods("GET")
 	r.HandleFunc("/dog", createDog).Methods("POST")
+	r.HandleFunc("/dog/{id}", deleteDog).Methods("DELETE")
 
 	r.PathPrefix("/").Handler(http.StripPrefix("", fs))
 	log.Fatal(http.ListenAndServe(":8081", r))
