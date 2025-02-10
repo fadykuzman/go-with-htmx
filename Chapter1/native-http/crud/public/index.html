@@ -1,0 +1,38 @@
+<html>
+
+<head>
+	<title>HTMX GO Hello</title>
+	<link rel="stylesheet" type="" href="statics/styles.css" />
+	<script src="https://unpkg.com/htmx.org@2.0.4"
+		integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+		crossorigin="anonymous"></script>
+</head>
+
+<body>
+	<h1>Dogs</h1>
+	<form hx-post="/dog" hx-disabled-elt="#add-btn" hx-target="table tbody" hx-swap="afterbegin"
+		hx-on:htmx:after-request="this.reset()">
+			<div>
+				<label for="name">Name</label>
+				<input id="name" type="text" name="name" value="" size="30" required>
+			</div>
+			<div>
+				<label for="breed">Breed</label>
+				<input id="breed" type="text" name="breed" value="" size="30" required>
+			</div>
+		<button type="submit" id="add-btn">Add</button>
+	</form>
+	<table hx-trigger="revealed" hx-get="/dogs" hx-target="tbody">
+		<th>
+			<tr>
+				Name
+			</tr>
+			<tr>
+				Breed
+			</tr>
+		</th>
+		<tbody></tbody>
+	</table>
+</body>
+
+</html>
