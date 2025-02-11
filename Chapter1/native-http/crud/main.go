@@ -9,7 +9,6 @@ import (
 	"strings"
 
 	"github.com/google/uuid"
-	"github.com/gorilla/mux"
 )
 
 type Dog struct {
@@ -57,8 +56,7 @@ func createDog(w http.ResponseWriter, r *http.Request) {
 }
 
 func deleteDog(w http.ResponseWriter, r *http.Request) {
-	vars := mux.Vars(r)
-	id := vars["id"]
+	id := r.PathValue("id")
 	fmt.Println(id)
 	delete(dogMap, id)
 }
@@ -67,14 +65,13 @@ func main() {
 	AddDog("Rocky", "Whippet", dogMap)
 	AddDog("Uranu", "Chesterfield", dogMap)
 
-	r := mux.NewRouter().StrictSlash(true)
-	r.HandleFunc("/dogs/", GetDogs).Methods("GET")
-	r.HandleFunc("/dog", createDog).Methods("POST")
-	r.HandleFunc("/dog/{id}", deleteDog).Methods("DELETE")
+	r := http.NewServeMux()
+	r.HandleFunc("GET /dogs/", GetDogs)
+	r.HandleFunc("POST /dog", createDog)
+	r.HandleFunc("DELETE /dog/{id}", deleteDog)
 
 	fs := http.FileServer(http.Dir("public"))
-
-	r.PathPrefix("/").Handler(http.StripPrefix("", fs))
+	r.Handle("/", http.StripPrefix("", fs))
 
 	log.Fatal(http.ListenAndServe(":8081", r))
 }
