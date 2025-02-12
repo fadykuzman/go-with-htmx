@@ -55,7 +55,10 @@
                 };
               };
               services = {
-                adminer.enable = true;
+                adminer = {
+                  enable = true;
+                  listen = "127.0.0.1:8180";
+                };
                 postgres = {
                   enable = true;
                   listen_addresses = "127.0.0.1";
