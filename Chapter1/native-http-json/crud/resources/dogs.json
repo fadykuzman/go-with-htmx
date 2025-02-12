@@ -1,0 +1,22 @@
+{
+ "123e4567-e89b-12d3-a456-426614174000": {
+  "name": "Luna",
+  "breed": "Labrador Retriever"
+ },
+ "550e8400-e29b-41d4-a716-446655440000": {
+  "name": "Buddy",
+  "breed": "Golden Retriever"
+ },
+ "987e6543-b21a-45c2-a678-123456789abc": {
+  "name": "Max",
+  "breed": "German Shepherd"
+ },
+ "d69aa875-683a-4b1d-90da-904b20ff1466": {
+  "name": "Galileo",
+  "breed": "Lab"
+ },
+ "e863fad2-7557-4d17-9e86-2adf38347e51": {
+  "name": "Chi",
+  "breed": "Chihuaua"
+ }
+}
