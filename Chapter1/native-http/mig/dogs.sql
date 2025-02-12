@@ -1,7 +1,3 @@
-\c postgres;
-
-CREATE DATABASE dogs;
-
 \c dogs;
 
 CREATE TABLE dogs (

@@ -72,6 +72,7 @@
                         name = "dogs";
                         user = "fady";
                         pass = "fady";
+                        schema = ./Chapter1/native-http/mig/dogs.sql;
                       }
                   ];
                 };
