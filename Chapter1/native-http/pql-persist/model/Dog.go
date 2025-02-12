@@ -7,8 +7,6 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"slices"
-	"strings"
 
 	"github.com/google/uuid"
 )
@@ -40,26 +38,6 @@ func AddDog(name, breed string, dogs Dogs) Dog {
 }
 
 func GetDogs(w http.ResponseWriter, r *http.Request) {
-	type DogDTO struct {
-		Id    string
-		Name  string
-		Breed string
-	}
-	dogsSlice := make([]DogDTO, 0, len(dogMap))
-	for k, v := range dogMap {
-		dog := DogDTO{
-			Id:    k,
-			Name:  v.Name,
-			Breed: v.Breed,
-		}
-		dogsSlice = append(dogsSlice, dog)
-	}
-
-	slices.SortStableFunc(dogsSlice, func(a, b DogDTO) int {
-		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
-	})
-	tmpl := template.Must(template.ParseFiles("public/dogs.html"))
-	tmpl.Execute(w, dogsSlice)
 }
 
 func CreateDog(w http.ResponseWriter, r *http.Request) {

@@ -8,6 +8,10 @@ import (
 	_ "github.com/lib/pq"
 )
 
+var (
+	DB *sql.DB
+)
+
 type DbConfig struct {
 	Host     string
 	Port     int
@@ -17,13 +21,13 @@ type DbConfig struct {
 	SSLMode  string
 }
 
-func StartDB() {
+func Connect() error {
 	config := DbConfig{
 		Host:     "127.0.0.1",
 		Port:     5432,
-		Name:     "postgres",
-		User:     "fady",
-		Password: "fady",
+		Name:     "dogs",
+		User:     "dogs",
+		Password: "dogs",
 		SSLMode:  "disable",
 	}
 
@@ -33,14 +37,19 @@ func StartDB() {
 		"postgres",
 		configString)
 	if err != nil {
-		log.Fatalf("error opening database: %v", err)
+		return fmt.Errorf("error opening database: %v", err)
 	}
-	defer db.Close()
 
 	err = db.Ping()
 	if err != nil {
-		log.Fatal("error connecting to database: %v", err)
+		return fmt.Errorf("error connecting to database: %v", err)
 	}
 
 	log.Println("Successfully connected to database!")
+	DB = db
+	return nil
+}
+
+func GetDB() *sql.DB {
+	return DB
 }
