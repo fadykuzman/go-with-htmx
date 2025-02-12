@@ -70,8 +70,8 @@
                     }
                       {
                         name = "dogs";
-                        user = "dogs";
-                        pass = "dogs";
+                        user = "fady";
+                        pass = "fady";
                       }
                   ];
                 };
