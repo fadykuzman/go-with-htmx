@@ -1,8 +1,5 @@
-module crud
+module github.com/fadykuzman/htmx-http-json
 
 go 1.23.3
 
-require (
-	github.com/google/uuid v1.6.0 // indirect
-	github.com/gorilla/mux v1.8.1 // indirect
-)
+require github.com/google/uuid v1.6.0
