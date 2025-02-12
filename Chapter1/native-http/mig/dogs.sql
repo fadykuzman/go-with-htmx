@@ -1,4 +1,8 @@
-\c dogs
+\c postgres;
+
+CREATE DATABASE dogs;
+
+\c dogs;
 
 CREATE TABLE dogs (
 	id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

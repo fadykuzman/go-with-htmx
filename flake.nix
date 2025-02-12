@@ -67,10 +67,7 @@
                       name = "postgres";
                       user = "fady";
                       pass = "fady";
-                    }
-                    {
-                      name = "dogs";
-                        #schema = ./Chapter1/native-http/mig/dogs.sql;
+                      schema = ./Chapter1/native-http/mig/dogs.sql;
                     }
                   ];
                 };
