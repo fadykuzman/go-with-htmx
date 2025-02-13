@@ -53,3 +53,10 @@ func (r *DogRepository) CreateDog(name, breed string) model.Dog {
 	r.db.QueryRow(query, name, breed).Scan(&dog.Id)
 	return dog
 }
+
+func (r *DogRepository) DeleteDog(id string) {
+	query := `
+	DELETE FROM dogs WHERE id=$1
+	`
+	r.db.QueryRow(query, id)
+}

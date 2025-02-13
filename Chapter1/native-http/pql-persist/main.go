@@ -39,6 +39,11 @@ func createDog(w http.ResponseWriter, r *http.Request) {
 	tmpl.Execute(w, slice)
 }
 
+func deleteDog(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
+	dogRepo.DeleteDog(id)
+}
+
 func main() {
 	err := persist.Connect()
 	if err != nil {
@@ -52,7 +57,7 @@ func main() {
 
 	srvr.HandleFunc("GET /dogs/", getDogs)
 	srvr.HandleFunc("POST /dog", createDog)
-	srvr.HandleFunc("DELETE /dog/{id}", model.DeleteDog)
+	srvr.HandleFunc("DELETE /dog/{id}", deleteDog)
 	public_dir := http.Dir("public")
 	fs := http.FileServer(public_dir)
 	srvr.Handle("/", http.StripPrefix("", fs))
