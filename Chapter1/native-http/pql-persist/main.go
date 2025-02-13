@@ -27,6 +27,18 @@ func getDogs(w http.ResponseWriter, r *http.Request) {
 	tmpl := template.Must(template.ParseFiles("public/dogs.html"))
 	tmpl.Execute(w, dogsSlice)
 }
+
+func createDog(w http.ResponseWriter, r *http.Request) {
+	name := r.FormValue("name")
+	breed := r.FormValue("breed")
+	dog := dogRepo.CreateDog(name, breed)
+	slice := []model.Dog{
+		dog,
+	}
+	tmpl := template.Must(template.ParseFiles("public/dogs.html"))
+	tmpl.Execute(w, slice)
+}
+
 func main() {
 	err := persist.Connect()
 	if err != nil {
@@ -39,7 +51,7 @@ func main() {
 	srvr := http.NewServeMux()
 
 	srvr.HandleFunc("GET /dogs/", getDogs)
-	srvr.HandleFunc("POST /dog", model.CreateDog)
+	srvr.HandleFunc("POST /dog", createDog)
 	srvr.HandleFunc("DELETE /dog/{id}", model.DeleteDog)
 	public_dir := http.Dir("public")
 	fs := http.FileServer(public_dir)

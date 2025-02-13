@@ -39,3 +39,17 @@ func (r *DogRepository) GetDogs() ([]model.Dog, error) {
 
 	return dogs, nil
 }
+
+func (r *DogRepository) CreateDog(name, breed string) model.Dog {
+	dog := model.Dog{
+		Name:  name,
+		Breed: breed,
+	}
+	query := `
+	INSERT INTO dogs (name, breed)
+	VALUES ($1, $2)
+	RETURNING id`
+
+	r.db.QueryRow(query, name, breed).Scan(&dog.Id)
+	return dog
+}
