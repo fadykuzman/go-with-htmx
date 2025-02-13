@@ -12,6 +12,7 @@ import (
 )
 
 type Dog struct {
+	Id    string
 	Name  string
 	Breed string
 }
@@ -23,16 +24,10 @@ var dogMap = make(Dogs)
 func AddDog(name, breed string, dogs Dogs) Dog {
 	id := uuid.NewString()
 	dog := Dog{
+		Id:    id,
 		Name:  name,
 		Breed: breed,
 	}
-	dogs[id] = dog
-	data, err := json.MarshalIndent(dogs, "", " ")
-	if err != nil {
-		log.Println(err)
-	}
-
-	os.WriteFile("resources/dogs.json", data, 0644)
 
 	return dog
 }

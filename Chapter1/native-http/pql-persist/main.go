@@ -20,11 +20,6 @@ func getDogs(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	type DogDTO struct {
-		Id    string
-		Name  string
-		Breed string
-	}
 
 	slices.SortStableFunc(dogsSlice, func(a, b model.Dog) int {
 		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))

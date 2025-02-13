@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
+	"log"
+
 	"github.com/fadykuzman/htmx-pql/model"
 	persist "github.com/fadykuzman/htmx-pql/persistence"
 )
@@ -20,13 +22,20 @@ func NewDogRepository() *DogRepository {
 
 func (r *DogRepository) GetDogs() ([]model.Dog, error) {
 
-	// dogs := make(model.Dogs)
+	dogs := make([]model.Dog, 0)
 	rows, err := r.db.Query("SELECT * FROM dogs")
 	if err != nil {
 		return nil, err
 	}
 
-	fmt.Println(rows)
+	for rows.Next() {
+		d := model.Dog{}
+		if err := rows.Scan(&d.Id, &d.Name, &d.Breed); err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("Dog: %s\n", d)
+		dogs = append(dogs, d)
+	}
 
-	return make([]model.Dog, 0), nil
+	return dogs, nil
 }
