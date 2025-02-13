@@ -70,9 +70,9 @@
                     }
                       {
                         name = "dogs";
-                        user = "fady";
-                        pass = "fady";
-                        schema = ./Chapter1/native-http/mig/dogs.sql;
+                        user = "dogs";
+                        pass = "dogs";
+                        schema = ./Chapter1/native-http/infra/chapter1/init/init.sql;
                       }
                   ];
                 };

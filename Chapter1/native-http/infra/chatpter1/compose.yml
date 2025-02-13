@@ -1,0 +1,34 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: dogs
+      POSTGRES_PASSWORD: dogs
+      POSTGRES_DB: dogs
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data      
+      - ./init/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - postgres_network
+
+  adminer:
+    image: adminer:latest
+    container_name: adminer_interface
+    restart: always
+    ports:
+      - "8180:8080"
+    depends_on:
+      - db
+    networks:
+      - postgres_network
+
+volumes:
+  postgres_data:
+
+networks:
+  postgres_network:
+    driver: bridge
