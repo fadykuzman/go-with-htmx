@@ -1,0 +1,29 @@
+<html>
+	<head>
+	<title>Trigger Events</title>	
+	<script src="https://unpkg.com/htmx.org@2.0.4"
+		integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+		crossorigin="anonymous"></script>
+		<script>
+		function handleEvent1(event){
+			const {value} = event.detail;
+			alert('got event1 with ' + value);
+		}
+		function handleEvent2(event){
+			const {value} = event.detail;
+			alert('got event2 with ' + JSON.stringify(value));
+		}
+		</script>
+	</head>
+	<body
+		hx-on:event1="handleEvent1(event)"
+		hx-on:event2="handleEvent2(event)"
+	>
+		<button hx-get="/event-with-no-data" hx-target="#content" type="">Event w/ no data</button>
+		<button hx-get="/event-with-string" hx-target="#content" type="">Event w/ string</button>
+
+	<div id="content">
+		
+	</div>	
+	</body>
+</html>
