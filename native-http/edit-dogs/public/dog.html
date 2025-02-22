@@ -1,8 +1,10 @@
 {{define "dog-row"}}
 
-<tr class="on-hover" id="row-{{ .Id }}" {{range $key, $value :=".Attrs}}" {{$key}}="{{$value}}" {{end}}> 
-	<td>{{ .Name }}</td>
-	<td>{{ .Breed }}</td>
+<tr class="on-hover" 
+	id="row-{{ .Dog.Id }}" 
+	{{ range $key, $value := .Attrs}} {{$key}}="{{$value}}"{{end}}> 
+	<td>{{ .Dog.Name }}</td>
+	<td>{{ .Dog.Breed }}</td>
 	<td class="buttons">
 		<button type="" class="show-on-hover" hx-delete="/dog/{{.Id}}" hx-confirm="Are you sure?" hx-target="closest tr"
 			hx-swap="delete">

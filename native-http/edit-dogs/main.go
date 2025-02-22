@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"slices"
@@ -15,11 +16,12 @@ import (
 var dogRepo *repositories.DogRepository
 
 type dogData struct {
-	Dogs  model.Dog
+	Dog   model.Dog
 	Attrs map[string]string
 }
 
 func getDogs(w http.ResponseWriter, r *http.Request) {
+	dogs := make([]dogData, 0)
 
 	dogsSlice, err := dogRepo.GetDogs()
 
@@ -30,6 +32,18 @@ func getDogs(w http.ResponseWriter, r *http.Request) {
 	slices.SortStableFunc(dogsSlice, func(a, b model.Dog) int {
 		return strings.Compare(strings.ToLower(a.Name), strings.ToLower(b.Name))
 	})
+
+	attrs := make(map[string]string, 0)
+
+	for _, dog := range dogsSlice {
+		fmt.Println(dog)
+		dd := dogData{
+			Dog:   dog,
+			Attrs: attrs,
+		}
+		dogs = append(dogs, dd)
+	}
+	fmt.Println(dogs)
 
 	itemTemplate, err := parseDog()
 	if err != nil {
@@ -45,7 +59,7 @@ func getDogs(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		log.Printf("Error parsing dogs template: %v", err)
 	}
-	listTmpl.ExecuteTemplate(w, "dog-rows", dogsSlice)
+	listTmpl.ExecuteTemplate(w, "dog-rows", dogs)
 }
 
 func parseDog() (*template.Template, error) {
@@ -68,6 +82,36 @@ func deleteDog(w http.ResponseWriter, r *http.Request) {
 	dogRepo.DeleteDog(id)
 }
 
+var selected_id string
+
+type FormData struct {
+	SelectedId  string
+	SelectedDog model.Dog
+	Attrs       map[string]string
+}
+
+func getForm(w http.ResponseWriter, r *http.Request) {
+	attrs := map[string]string{
+		"hx-on:htmx:after-request": "this.reset()",
+	}
+	if selected_id != "" {
+		attrs["hx-put"] = "/dog" + selected_id
+	} else {
+		attrs["hx-post"] = "/dog"
+		attrs["hx-targe"] = "tbody"
+		attrs["hx-swap"] = "afterbegin"
+	}
+	selected_dog := dogRepo.GetDog(selected_id)
+	formData := FormData{
+		SelectedId:  selected_id,
+		SelectedDog: selected_dog,
+		Attrs:       attrs,
+	}
+	tmpl := template.Must(template.ParseFiles("public/form.html"))
+	tmpl.Execute(w, formData)
+
+}
+
 func main() {
 	err := persist.Connect()
 	if err != nil {
@@ -79,9 +123,11 @@ func main() {
 	dogRepo = repositories.NewDogRepository()
 	srvr := http.NewServeMux()
 
+	srvr.HandleFunc("GET /form/", getForm)
 	srvr.HandleFunc("GET /dogs/", getDogs)
 	srvr.HandleFunc("POST /dog", createDog)
 	srvr.HandleFunc("DELETE /dog/{id}", deleteDog)
+
 	public_dir := http.Dir("public")
 	fs := http.FileServer(public_dir)
 	srvr.Handle("/", http.StripPrefix("", fs))

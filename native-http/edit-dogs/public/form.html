@@ -1,0 +1,18 @@
+<form hx-disabled-elt="#submit-btn" {{ range $key, $value := .Attrs}} {{$key}}="{{$value}}" {{end}}>
+	<div>
+		<label for="name">Name</label>
+		<input id="name" type="text" name="name" value="" size="30" required
+			value="{{with .SelectedDog}}{{.Name}}{{end}}" />
+	</div>
+	<div>
+		<label for="breed">Breed</label>
+		<input id="breed" type="text" name="breed" value="" size="30" required
+			vlaue="{{with .SelectedDog}}{{.Breed}}{{end}}" />
+	</div>
+	<div class="buttons">
+		<button type="submit" id="submit-btn">
+			{{if .SelectedId}}Update{{else}}Add{{end}}
+		</button>
+		<button type="button" hx-put="/deselect" hx-swap="none">Cancel</button>
+	</div>
+</form>

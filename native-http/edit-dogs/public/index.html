@@ -10,7 +10,7 @@
 
 <body>
 	<h1>Dogs</h1>
-	<div hx-trigger="revealed, selection-change from:body" ></div>
+	<div hx-trigger="revealed, selection-change from:body" hx-get="/form" ></div>
 	<table hx-trigger="revealed" hx-get="/dogs" hx-target="tbody">
 		<th>
 			<tr>
