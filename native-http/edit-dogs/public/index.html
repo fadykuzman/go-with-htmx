@@ -1,0 +1,27 @@
+<html>
+
+<head>
+	<title>HTMX GO Hello</title>
+	<link rel="stylesheet" type="text/css" href="/statics/styles.css" />
+	<script src="https://unpkg.com/htmx.org@2.0.4"
+		integrity="sha384-HGfztofotfshcF7+8n44JQL2oJmowVChPTg48S+jvZoztPfvwD79OC/LTtG6dMp+"
+		crossorigin="anonymous"></script>
+</head>
+
+<body>
+	<h1>Dogs</h1>
+	<div hx-trigger="revealed, selection-change from:body" ></div>
+	<table hx-trigger="revealed" hx-get="/dogs" hx-target="tbody">
+		<th>
+			<tr>
+				Name
+			</tr>
+			<tr>
+				Breed
+			</tr>
+		</th>
+		<tbody></tbody>
+	</table>
+</body>
+
+</html>
