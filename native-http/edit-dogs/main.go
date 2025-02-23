@@ -36,14 +36,12 @@ func getDogs(w http.ResponseWriter, r *http.Request) {
 	attrs := make(map[string]string, 0)
 
 	for _, dog := range dogsSlice {
-		fmt.Println(dog)
 		dd := dogData{
 			Dog:   dog,
 			Attrs: attrs,
 		}
 		dogs = append(dogs, dd)
 	}
-	fmt.Println(dogs)
 
 	itemTemplate, err := parseDog()
 	if err != nil {
@@ -107,6 +105,7 @@ func getForm(w http.ResponseWriter, r *http.Request) {
 		SelectedDog: selected_dog,
 		Attrs:       attrs,
 	}
+	fmt.Printf("Form Data: %s", formData)
 	tmpl := template.Must(template.ParseFiles("public/form.html"))
 	tmpl.Execute(w, formData)
 

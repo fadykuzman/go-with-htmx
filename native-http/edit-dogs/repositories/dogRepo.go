@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"database/sql"
-	"fmt"
 
 	"log"
 
@@ -33,7 +32,6 @@ func (r *DogRepository) GetDogs() ([]model.Dog, error) {
 		if err := rows.Scan(&d.Id, &d.Name, &d.Breed); err != nil {
 			log.Fatal(err)
 		}
-		fmt.Printf("Dog: %s\n", d)
 		dogs = append(dogs, d)
 	}
 

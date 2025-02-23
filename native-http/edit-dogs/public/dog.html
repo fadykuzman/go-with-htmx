@@ -6,11 +6,11 @@
 	<td>{{ .Dog.Name }}</td>
 	<td>{{ .Dog.Breed }}</td>
 	<td class="buttons">
-		<button type="" class="show-on-hover" hx-delete="/dog/{{.Id}}" hx-confirm="Are you sure?" hx-target="closest tr"
+		<button type="" class="show-on-hover" hx-delete="/dog/{{.Dog.Id}}" hx-confirm="Are you sure?" hx-target="closest tr"
 			hx-swap="delete">
 			x
 		</button>
-		<button type="button" class="show-on-hover" hx-put="/select/{{.Id}}" hx-swap="none">
+		<button type="button" class="show-on-hover" hx-put="/select/{{.Dog.Id}}" hx-swap="none">
 			Edit
 		</button>
 	</td>
