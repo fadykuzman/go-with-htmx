@@ -64,7 +64,7 @@ func (r *DogRepository) GetDog(id string) model.Dog {
 		Id: id,
 	}
 	query := `
-	SELECT * FROM dogs WHERE id=$1
+	SELECT name, breed FROM dogs WHERE id=($1::uuid)
 `
 	r.db.QueryRow(query, id).Scan(&dog.Name, &dog.Breed)
 

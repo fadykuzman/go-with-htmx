@@ -96,19 +96,24 @@ func getForm(w http.ResponseWriter, r *http.Request) {
 		attrs["hx-put"] = "/dog" + selected_id
 	} else {
 		attrs["hx-post"] = "/dog"
-		attrs["hx-targe"] = "tbody"
+		attrs["hx-target"] = "tbody"
 		attrs["hx-swap"] = "afterbegin"
 	}
 	selected_dog := dogRepo.GetDog(selected_id)
+	fmt.Printf("dog: %s\n", selected_dog)
 	formData := FormData{
 		SelectedId:  selected_id,
 		SelectedDog: selected_dog,
 		Attrs:       attrs,
 	}
-	fmt.Printf("Form Data: %s", formData)
 	tmpl := template.Must(template.ParseFiles("public/form.html"))
 	tmpl.Execute(w, formData)
 
+}
+
+func selectDog(w http.ResponseWriter, r *http.Request) {
+	selected_id = r.PathValue("id")
+	w.Header().Set("HX-Trigger", "selection-change")
 }
 
 func main() {
@@ -126,6 +131,7 @@ func main() {
 	srvr.HandleFunc("GET /dogs/", getDogs)
 	srvr.HandleFunc("POST /dog", createDog)
 	srvr.HandleFunc("DELETE /dog/{id}", deleteDog)
+	srvr.HandleFunc("PUT /select/{id}", selectDog)
 
 	public_dir := http.Dir("public")
 	fs := http.FileServer(public_dir)
