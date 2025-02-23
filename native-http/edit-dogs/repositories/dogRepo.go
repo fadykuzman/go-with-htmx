@@ -65,8 +65,17 @@ func (r *DogRepository) GetDog(id string) model.Dog {
 	}
 	query := `
 	SELECT name, breed FROM dogs WHERE id=($1::uuid)
-`
+    `
 	r.db.QueryRow(query, id).Scan(&dog.Name, &dog.Breed)
 
 	return dog
+}
+
+func (r *DogRepository) UpdateDog(dog model.Dog) {
+	query := `
+		UPDATE dogs 
+	SET name=$1, breed=$2
+	WHERE id=($3::uuid)
+    `
+	r.db.QueryRow(query, dog.Name, dog.Breed, dog.Id)
 }

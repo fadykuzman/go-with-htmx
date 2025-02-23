@@ -72,7 +72,7 @@ func createDog(w http.ResponseWriter, r *http.Request) {
 		dog,
 	}
 	tmpl := template.Must(template.ParseFiles("public/dogs.html"))
-	tmpl.Execute(w, slice)
+	tmpl.ExecuteTemplate(w, "dog-row", slice)
 }
 
 func deleteDog(w http.ResponseWriter, r *http.Request) {
@@ -93,14 +93,13 @@ func getForm(w http.ResponseWriter, r *http.Request) {
 		"hx-on:htmx:after-request": "this.reset()",
 	}
 	if selected_id != "" {
-		attrs["hx-put"] = "/dog" + selected_id
+		attrs["hx-put"] = "/dog/" + selected_id
 	} else {
 		attrs["hx-post"] = "/dog"
 		attrs["hx-target"] = "tbody"
 		attrs["hx-swap"] = "afterbegin"
 	}
 	selected_dog := dogRepo.GetDog(selected_id)
-	fmt.Printf("dog: %s\n", selected_dog)
 	formData := FormData{
 		SelectedId:  selected_id,
 		SelectedDog: selected_dog,
@@ -114,6 +113,37 @@ func getForm(w http.ResponseWriter, r *http.Request) {
 func selectDog(w http.ResponseWriter, r *http.Request) {
 	selected_id = r.PathValue("id")
 	w.Header().Set("HX-Trigger", "selection-change")
+}
+
+func updateDog(w http.ResponseWriter, r *http.Request) {
+	id := r.PathValue("id")
+	name := r.FormValue("name")
+	breed := r.FormValue("breed")
+	updatedDog := model.Dog{
+		Id:    id,
+		Name:  name,
+		Breed: breed,
+	}
+
+	dogRepo.UpdateDog(updatedDog)
+
+	selected_id = ""
+	w.Header().Set("HX-Trigger", "selection-change")
+
+	attrs := map[string]string{
+		"hx-swap-oob": "true",
+	}
+
+	dog := dogData{
+		Dog:   updatedDog,
+		Attrs: attrs,
+	}
+	fmt.Printf("updated Dog: %s", dog)
+
+	tmpl := template.Must(template.ParseFiles("public/dog.html"))
+
+	tmpl.ExecuteTemplate(w, "dog-row", dog)
+
 }
 
 func main() {
@@ -132,6 +162,7 @@ func main() {
 	srvr.HandleFunc("POST /dog", createDog)
 	srvr.HandleFunc("DELETE /dog/{id}", deleteDog)
 	srvr.HandleFunc("PUT /select/{id}", selectDog)
+	srvr.HandleFunc("PUT /dog/{id}", updateDog)
 
 	public_dir := http.Dir("public")
 	fs := http.FileServer(public_dir)
