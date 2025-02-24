@@ -71,7 +71,7 @@ func createDog(w http.ResponseWriter, r *http.Request) {
 	slice := []model.Dog{
 		dog,
 	}
-	tmpl := template.Must(template.ParseFiles("public/dogs.html"))
+	tmpl := template.Must(template.ParseFiles("public/dog.html"))
 	tmpl.ExecuteTemplate(w, "dog-row", slice)
 }
 
@@ -96,7 +96,7 @@ func getForm(w http.ResponseWriter, r *http.Request) {
 		attrs["hx-put"] = "/dog/" + selected_id
 	} else {
 		attrs["hx-post"] = "/dog"
-		attrs["hx-target"] = "tbody"
+		attrs["hx-target"] = "table tbody"
 		attrs["hx-swap"] = "afterbegin"
 	}
 	selected_dog := dogRepo.GetDog(selected_id)
