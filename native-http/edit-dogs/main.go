@@ -68,11 +68,12 @@ func createDog(w http.ResponseWriter, r *http.Request) {
 	name := r.FormValue("name")
 	breed := r.FormValue("breed")
 	dog := dogRepo.CreateDog(name, breed)
-	slice := []model.Dog{
-		dog,
+	dd := dogData{
+		Dog:   dog,
+		Attrs: nil,
 	}
 	tmpl := template.Must(template.ParseFiles("public/dog.html"))
-	tmpl.ExecuteTemplate(w, "dog-row", slice)
+	tmpl.ExecuteTemplate(w, "dog-row", dd)
 }
 
 func deleteDog(w http.ResponseWriter, r *http.Request) {
