@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Paragraphs Exercise</title>
@@ -5,6 +6,10 @@
 		<link rel="stylesheet" type="text/css" href="statics/styles.css">
 	</head>
 	<body>
+		<div hx-trigger="revealed" hx-get="/paragraphs">
+			
+		</div>
+		<button hx-get="/change" hx-trigger="click" hx-swap="none">Press me!</button>
 		
 	</body>
 </html>
