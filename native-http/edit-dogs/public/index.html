@@ -10,16 +10,18 @@
 
 <body>
 	<h1>Dogs</h1>
-	<div hx-trigger="revealed, selection-change from:body" hx-get="/form" ></div>
+	<div hx-trigger="revealed, selection-change from:body" hx-get="/form"></div>
 	<table hx-trigger="revealed" hx-get="/dogs" hx-target="tbody">
-		<th>
+		<thead>
 			<tr>
-				Name
+				<th>
+					Name
+				</th>
+				<th>
+					Breed
+				</th>
 			</tr>
-			<tr>
-				Breed
-			</tr>
-		</th>
+		</thead>
 		<tbody></tbody>
 	</table>
 </body>
